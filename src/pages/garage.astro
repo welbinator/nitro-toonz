@@ -1,0 +1,66 @@
+---
+import Layout from "../layouts/Layout.astro";
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const href = (p) => (base + p) || "/";
+
+// Placeholder panels. Real artwork drops in here once Nitro sends the files.
+const panels = [
+  { tag: "Hot Rod", c1: "#ff5a1f", c2: "#e01e1e", tilt: "-2deg" },
+  { tag: "Muscle", c1: "#28e0b8", c2: "#149e82", tilt: "1.5deg" },
+  { tag: "Rat Rod", c1: "#ffc53d", c2: "#e0920f", tilt: "-1deg" },
+  { tag: "Truck", c1: "#ff8a00", c2: "#c24e00", tilt: "2deg" },
+  { tag: "Bike", c1: "#d9dde2", c2: "#8a8f96", tilt: "-1.5deg" },
+  { tag: "Caricature", c1: "#ff5a1f", c2: "#e01e1e", tilt: "1deg" },
+];
+---
+<Layout active="The Garage" title="The Garage">
+  <section class="page-head">
+    <div class="wrap rise">
+      <p class="eyebrow">The Garage</p>
+      <h1>The work bay.</h1>
+      <p class="lead">
+        This is where the finished toons get parked. Nitro Toonz is loading the
+        bay with fresh builds right now. Want your ride to be one of the first
+        up on the wall? Send it over and it lands here.
+      </p>
+      <a class="btn btn-flame" href={href("/commissions")}><span>Put my ride on the wall</span></a>
+    </div>
+  </section>
+
+  <section class="wrap gallery">
+    <div class="panel-grid">
+      {panels.map((p) => (
+        <figure class="panel rise" style={`--tilt:${p.tilt}`}>
+          <div class="panel-art" style={`background:linear-gradient(135deg, ${p.c1}, ${p.c2})`}>
+            <svg viewBox="0 0 200 120" aria-hidden="true">
+              <path d="M24 86c3-24 18-30 18-30l20-2 14-12 24 2 8 12 16 6 2 14-4 10H30z"
+                    fill="#0b0a0a" opacity="0.82"/>
+              <circle cx="56" cy="92" r="14" fill="#0b0a0a"/>
+              <circle cx="128" cy="92" r="16" fill="#0b0a0a"/>
+            </svg>
+            <span class="panel-badge">Fresh build loading</span>
+          </div>
+          <figcaption>{p.tag}</figcaption>
+        </figure>
+      ))}
+    </div>
+    <p class="gallery-note rise">
+      New art gets added as it rolls out of the shop. Check back soon, or get in
+      line for a commission and watch your own ride show up here.
+    </p>
+  </section>
+</Layout>
+
+<style>
+  .page-head { padding: clamp(2.2rem, 6vw, 4rem) 0 1rem; background: radial-gradient(120% 80% at 50% 0%, #221a16 0%, var(--ink) 65%); }
+  .lead { color: var(--chrome); font-size: 1.15rem; max-width: 52ch; margin: 1rem 0 1.6rem; }
+  .gallery { padding: clamp(1.5rem, 4vw, 2.5rem) 0; }
+  .panel-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.4rem; }
+  .panel { margin: 0; transform: rotate(var(--tilt)); transition: transform .2s; }
+  .panel:hover { transform: rotate(0deg) scale(1.02); }
+  .panel-art { position: relative; aspect-ratio: 5/3; border: 4px solid var(--ink); border-radius: 4px; box-shadow: 6px 6px 0 #0007; overflow: hidden; display: flex; align-items: flex-end; }
+  .panel-art svg { width: 100%; height: 100%; position: absolute; inset: 0; opacity: 0.9; }
+  .panel-badge { position: relative; z-index: 2; margin: 0.8rem; background: #0b0a0acc; color: var(--bone); font-family: var(--font-cond); text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; padding: 0.3rem 0.7rem; border-radius: 2px; }
+  .panel figcaption { font-family: var(--font-display); text-transform: uppercase; font-size: 1.4rem; margin-top: 0.7rem; color: var(--bone); }
+  .gallery-note { color: var(--smoke); text-align: center; max-width: 48ch; margin: 2.5rem auto 0; font-size: 1.05rem; }
+</style>

@@ -1,0 +1,337 @@
+---
+export interface Props {
+  title?: string;
+  description?: string;
+  active?: string;
+}
+const {
+  title = "Nitro Toonz",
+  description = "Custom hot rod cartoon art by Nitro Toonz. Send a photo of your ride, get it drawn loud. I cartoon your imagination.",
+  active = "",
+} = Astro.props;
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const isStaging = base !== "";
+const href = (p: string) => (base + p).replace(/\/\/+/, "/") || "/";
+
+const nav = [
+  { label: "Home", path: "/" },
+  { label: "The Garage", path: "/garage" },
+  { label: "Commissions", path: "/commissions" },
+  { label: "About", path: "/about" },
+  { label: "Contact", path: "/contact" },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title === "Nitro Toonz" ? title : `${title} | Nitro Toonz`}</title>
+    <meta name="description" content={description} />
+    {isStaging && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bungee&family=Anton&family=Archivo:wght@400;500;600;700;800;900&family=Barlow+Condensed:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/svg+xml" href={href("/favicon.svg")} />
+    <meta name="theme-color" content="#0b0a0a" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+  </head>
+  <body>
+    <div class="grain" aria-hidden="true"></div>
+
+    <header class="site-head">
+      <a class="brand" href={href("/")}>
+        <span class="brand-mark">NITRO</span>
+        <span class="brand-mark brand-toonz">TOONZ</span>
+      </a>
+      <button class="burger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="site-nav">
+        {
+          nav.map((n) => (
+            <a
+              href={href(n.path)}
+              class={active === n.label ? "active" : ""}
+            >
+              {n.label}
+            </a>
+          ))
+        }
+        <a class="nav-cta" href={href("/commissions")}>Get Toon'd</a>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-foot">
+      <div class="foot-flames" aria-hidden="true"></div>
+      <div class="foot-inner">
+        <div class="foot-brand">
+          <span class="brand-mark">NITRO</span>
+          <span class="brand-mark brand-toonz">TOONZ</span>
+          <p class="foot-tag">I cartoon your imagination.</p>
+        </div>
+        <nav class="foot-links">
+          {nav.map((n) => <a href={href(n.path)}>{n.label}</a>)}
+        </nav>
+        <div class="foot-contact">
+          <a href="mailto:nrouse1959@gmail.com">nrouse1959@gmail.com</a>
+          <p class="foot-small">Hand-drawn hot rod cartoons, made to order.</p>
+        </div>
+      </div>
+      <p class="foot-copy">&copy; {new Date().getFullYear()} Nitro Toonz. All art reserved.</p>
+    </footer>
+
+    <style is:global>
+      :root {
+        --ink: #0b0a0a;
+        --ink-2: #141110;
+        --ink-3: #1d1917;
+        --smoke: #a7a19b;
+        --bone: #f4efe7;
+        --chrome: #d9dde2;
+        --flame: #ff5a1f;
+        --flame-hot: #ff8a00;
+        --flame-deep: #e01e1e;
+        --nitro: #28e0b8;
+        --gold: #ffc53d;
+        --font-display: "Anton", sans-serif;
+        --font-slab: "Bungee", cursive;
+        --font-cond: "Barlow Condensed", sans-serif;
+        --font-body: "Archivo", system-ui, sans-serif;
+        --wrap: 1180px;
+      }
+
+      * { box-sizing: border-box; }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        margin: 0;
+        background: var(--ink);
+        color: var(--bone);
+        font-family: var(--font-body);
+        font-size: 18px;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      img { max-width: 100%; display: block; }
+      a { color: inherit; }
+
+      .grain {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 1;
+        opacity: 0.05;
+        background-image: radial-gradient(var(--bone) 0.5px, transparent 0.5px);
+        background-size: 4px 4px;
+        mix-blend-mode: screen;
+      }
+
+      main { position: relative; z-index: 2; }
+
+      /* ---------- Reveal (fail-open) ---------- */
+      .rise { transition: opacity .6s ease, transform .6s ease; }
+      html.js .rise { opacity: 0; transform: translateY(22px); }
+      html.js .rise.in { opacity: 1; transform: none; }
+      @media (prefers-reduced-motion: reduce) {
+        html.js .rise, .rise { opacity: 1 !important; transform: none !important; transition: none; }
+        html { scroll-behavior: auto; }
+      }
+
+      /* ---------- Header ---------- */
+      .site-head {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.85rem clamp(1rem, 4vw, 2.5rem);
+        background: rgba(11, 10, 10, 0.82);
+        backdrop-filter: blur(10px);
+        border-bottom: 2px solid var(--ink-3);
+      }
+      .brand {
+        display: inline-flex;
+        gap: 0.4rem;
+        align-items: baseline;
+        text-decoration: none;
+        font-family: var(--font-slab);
+        font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+        letter-spacing: 0.5px;
+        line-height: 1;
+      }
+      .brand-mark { color: var(--bone); transform: skewX(-6deg); }
+      .brand-toonz {
+        color: var(--flame);
+        -webkit-text-stroke: 1px var(--flame-deep);
+      }
+      .site-nav {
+        display: flex;
+        align-items: center;
+        gap: clamp(0.8rem, 2vw, 1.7rem);
+      }
+      .site-nav a {
+        text-decoration: none;
+        font-family: var(--font-cond);
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        font-weight: 600;
+        font-size: 1.02rem;
+        color: var(--chrome);
+        transition: color .2s;
+      }
+      .site-nav a:hover, .site-nav a.active { color: var(--flame-hot); }
+      .nav-cta {
+        background: var(--flame);
+        color: var(--ink) !important;
+        padding: 0.5rem 1.1rem;
+        border-radius: 2px;
+        transform: skewX(-8deg);
+        box-shadow: 3px 3px 0 var(--flame-deep);
+        font-weight: 700 !important;
+      }
+      .nav-cta:hover { background: var(--flame-hot); transform: skewX(-8deg) translate(-1px,-1px); box-shadow: 4px 4px 0 var(--flame-deep); }
+
+      .burger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: 0;
+        cursor: pointer;
+        padding: 6px;
+      }
+      .burger span {
+        width: 26px; height: 3px; background: var(--bone); border-radius: 2px; transition: .25s;
+      }
+      .burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+      .burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+      .burger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+      @media (max-width: 820px) {
+        .burger { display: flex; }
+        .site-nav {
+          position: fixed;
+          inset: 60px 0 auto 0;
+          flex-direction: column;
+          gap: 0;
+          background: var(--ink-2);
+          border-bottom: 3px solid var(--flame);
+          padding: 0.5rem 0 1.2rem;
+          transform: translateY(-120%);
+          transition: transform .3s ease;
+        }
+        .site-nav.open { transform: translateY(0); }
+        .site-nav a { padding: 0.9rem 1.5rem; width: 100%; font-size: 1.2rem; }
+        .nav-cta { margin: 0.6rem 1.5rem 0; text-align: center; }
+      }
+
+      /* ---------- Shared sections ---------- */
+      .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2rem); }
+      section { position: relative; }
+
+      .eyebrow {
+        font-family: var(--font-cond);
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        color: var(--flame-hot);
+        font-weight: 700;
+        font-size: 0.95rem;
+        margin: 0 0 0.6rem;
+      }
+      h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: 0.95; letter-spacing: 0.5px; text-transform: uppercase; margin: 0; }
+      h1 { font-size: clamp(2.8rem, 8vw, 6.4rem); }
+      h2 { font-size: clamp(2rem, 5.5vw, 4rem); }
+      h3 { font-size: clamp(1.3rem, 3vw, 1.9rem); }
+      p { margin: 0 0 1rem; }
+
+      .btn {
+        display: inline-block;
+        font-family: var(--font-cond);
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        text-decoration: none;
+        padding: 0.85rem 1.8rem;
+        border-radius: 2px;
+        cursor: pointer;
+        border: 0;
+        transform: skewX(-8deg);
+        transition: transform .15s, box-shadow .15s;
+      }
+      .btn span { display: inline-block; transform: skewX(8deg); }
+      .btn-flame { background: var(--flame); color: var(--ink); box-shadow: 5px 5px 0 var(--flame-deep); }
+      .btn-flame:hover { transform: skewX(-8deg) translate(-2px,-2px); box-shadow: 7px 7px 0 var(--flame-deep); }
+      .btn-ghost { background: transparent; color: var(--bone); border: 2px solid var(--chrome); box-shadow: none; }
+      .btn-ghost:hover { border-color: var(--flame); color: var(--flame-hot); }
+
+      /* ---------- Footer ---------- */
+      .site-foot { position: relative; z-index: 2; margin-top: 4rem; background: var(--ink-2); border-top: 2px solid var(--ink-3); }
+      .foot-flames {
+        height: 10px;
+        background: repeating-linear-gradient(-45deg, var(--flame) 0 14px, var(--flame-deep) 14px 28px);
+      }
+      .foot-inner {
+        max-width: var(--wrap);
+        margin: 0 auto;
+        padding: 2.6rem clamp(1rem, 4vw, 2rem);
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1.6rem;
+      }
+      .foot-brand .brand-mark { font-family: var(--font-slab); font-size: 1.5rem; }
+      .foot-tag { font-family: var(--font-cond); font-size: 1.15rem; color: var(--smoke); margin-top: 0.4rem; }
+      .foot-links { display: flex; flex-direction: column; gap: 0.5rem; }
+      .foot-links a, .foot-contact a {
+        font-family: var(--font-cond);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        text-decoration: none;
+        color: var(--chrome);
+      }
+      .foot-links a:hover, .foot-contact a:hover { color: var(--flame-hot); }
+      .foot-contact a { font-size: 1.1rem; }
+      .foot-small { color: var(--smoke); font-size: 0.95rem; margin-top: 0.5rem; }
+      .foot-copy { text-align: center; color: var(--smoke); font-size: 0.85rem; padding: 1rem; border-top: 1px solid var(--ink-3); margin: 0; font-family: var(--font-cond); letter-spacing: 1px; }
+    </style>
+
+    <script>
+      document.documentElement.classList.add("js");
+      const burger = document.querySelector(".burger");
+      const nav = document.querySelector(".site-nav");
+      burger?.addEventListener("click", () => {
+        const open = nav?.classList.toggle("open");
+        burger.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      const risers = Array.from(document.querySelectorAll(".rise"));
+      const io = new IntersectionObserver(
+        (es) =>
+          es.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("in");
+              io.unobserve(e.target);
+            }
+          }),
+        { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
+      );
+      risers.forEach((el) => io.observe(el));
+      setTimeout(() => risers.forEach((el) => el.classList.add("in")), 2500);
+    </script>
+  </body>
+</html>

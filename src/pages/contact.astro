@@ -1,0 +1,43 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+<Layout active="Contact" title="Contact">
+  <section class="page-head">
+    <div class="wrap rise">
+      <p class="eyebrow">Contact</p>
+      <h1>Let's talk rides.</h1>
+      <p class="lead">
+        Questions about a commission, a print, or just want to say your ride would
+        make a great cartoon? Reach out. The fastest way to get started is the
+        commission form, but email works great too.
+      </p>
+    </div>
+  </section>
+
+  <section class="wrap contact">
+    <div class="contact-grid">
+      <a class="contact-card rise" href="mailto:nrouse1959@gmail.com?subject=Nitro%20Toonz">
+        <h3>Email</h3>
+        <p class="big">nrouse1959@gmail.com</p>
+        <p class="sub">Send a photo of your ride and I'll take it from there.</p>
+      </a>
+      <div class="contact-card rise">
+        <h3>Start a commission</h3>
+        <p class="sub">The form walks you through everything I need and opens a ready-to-send email.</p>
+        <a class="btn btn-flame" href={import.meta.env.BASE_URL.replace(/\/$/,'') + "/commissions"}><span>Get your ride toon'd</span></a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-head { padding: clamp(2.2rem, 6vw, 4rem) 0 1rem; background: radial-gradient(120% 80% at 50% 0%, #221a16 0%, var(--ink) 65%); }
+  .lead { color: var(--chrome); font-size: 1.15rem; max-width: 52ch; margin: 1rem 0 0; }
+  .contact { padding: clamp(2rem, 5vw, 3rem) 0; }
+  .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.4rem; }
+  .contact-card { display: block; text-decoration: none; background: var(--ink-2); border: 2px solid var(--ink-3); border-radius: 6px; padding: 2rem; transition: border-color .2s, transform .2s; }
+  a.contact-card:hover { border-color: var(--flame); transform: translateY(-4px); }
+  .contact-card h3 { color: var(--bone); }
+  .big { font-family: var(--font-cond); font-size: 1.5rem; color: var(--flame-hot); margin: 0.6rem 0; letter-spacing: 0.5px; }
+  .sub { color: var(--smoke); margin: 0.6rem 0 1.2rem; }
+</style>

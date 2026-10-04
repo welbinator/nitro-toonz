@@ -1,0 +1,118 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const whatYouGet = [
+  "A hand-drawn cartoon of your actual vehicle",
+  "The signature Nitro Toonz style: bold lines, big attitude",
+  "A high-resolution file you can print or share",
+  "Options for color or classic black and white",
+];
+---
+<Layout active="Commissions" title="Commissions">
+  <section class="page-head">
+    <div class="wrap rise">
+      <p class="eyebrow">Commissions</p>
+      <h1>Get your ride toon'd.</h1>
+      <p class="lead">
+        Tell me about your ride and send a couple of photos. I draw it by hand in
+        the Nitro Toonz style and send back a cartoon that is all yours. Fill out
+        the form below and it opens a ready-to-send email straight to me.
+      </p>
+    </div>
+  </section>
+
+  <section class="wrap commission">
+    <div class="comm-grid">
+      <form class="comm-form rise" id="commForm">
+        <label>Your name
+          <input type="text" name="name" required placeholder="First and last" />
+        </label>
+        <label>Your email
+          <input type="email" name="email" required placeholder="you@email.com" />
+        </label>
+        <label>What are we drawing?
+          <select name="type">
+            <option>Hot Rod</option>
+            <option>Muscle Car</option>
+            <option>Rat Rod</option>
+            <option>Truck</option>
+            <option>Motorcycle</option>
+            <option>Caricature of me and my ride</option>
+            <option>Something else</option>
+          </select>
+        </label>
+        <label>Color or black and white?
+          <select name="finish">
+            <option>Full color</option>
+            <option>Black and white</option>
+            <option>Not sure, let's talk</option>
+          </select>
+        </label>
+        <label>Tell me about your ride
+          <textarea name="details" rows="5" placeholder="Year, make, model, the paint, the wheels, what makes it yours, and anything you want in the cartoon."></textarea>
+        </label>
+        <p class="photo-note">
+          After you hit the button your email app opens with everything filled in.
+          Just attach your photos there and send.
+        </p>
+        <button type="submit" class="btn btn-flame"><span>Open my commission email</span></button>
+      </form>
+
+      <aside class="comm-side rise">
+        <div class="side-card">
+          <h3>What you get</h3>
+          <ul>
+            {whatYouGet.map((w) => <li>{w}</li>)}
+          </ul>
+        </div>
+        <div class="side-card side-accent">
+          <h3>Rather just email?</h3>
+          <p>Send your photos and details straight to:</p>
+          <a class="side-email" href="mailto:nrouse1959@gmail.com?subject=Nitro%20Toonz%20Commission">nrouse1959@gmail.com</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <script>
+    const form = document.getElementById("commForm");
+    form?.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const f = e.target;
+      const g = (n) => encodeURIComponent((f.elements[n]?.value || "").trim());
+      const subject = encodeURIComponent("Nitro Toonz Commission: " + (f.elements["type"].value));
+      const body =
+        "Name: " + decodeURIComponent(g("name")) + "%0D%0A" +
+        "Email: " + decodeURIComponent(g("email")) + "%0D%0A" +
+        "Drawing: " + decodeURIComponent(g("type")) + "%0D%0A" +
+        "Finish: " + decodeURIComponent(g("finish")) + "%0D%0A%0D%0A" +
+        "About the ride:%0D%0A" + decodeURIComponent(g("details")) + "%0D%0A%0D%0A" +
+        "(I will attach my photos to this email before sending.)";
+      window.location.href =
+        "mailto:nrouse1959@gmail.com?subject=" + subject + "&body=" + body;
+    });
+  </script>
+
+  <style>
+    .page-head { padding: clamp(2.2rem, 6vw, 4rem) 0 1rem; background: radial-gradient(120% 80% at 50% 0%, #221a16 0%, var(--ink) 65%); }
+    .lead { color: var(--chrome); font-size: 1.15rem; max-width: 54ch; margin: 1rem 0 0; }
+    .commission { padding: clamp(1.8rem, 5vw, 3rem) 0; }
+    .comm-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 2rem; align-items: start; }
+    .comm-form { display: grid; gap: 1.1rem; background: var(--ink-2); border: 2px solid var(--ink-3); border-radius: 6px; padding: 1.8rem; }
+    label { display: grid; gap: 0.4rem; font-family: var(--font-cond); text-transform: uppercase; letter-spacing: 1px; font-size: 0.95rem; color: var(--chrome); font-weight: 600; }
+    input, select, textarea { font-family: var(--font-body); font-size: 1rem; background: var(--ink); color: var(--bone); border: 2px solid #2a2320; border-radius: 4px; padding: 0.7rem 0.8rem; text-transform: none; letter-spacing: 0; }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--flame); }
+    textarea { resize: vertical; }
+    .photo-note { color: var(--smoke); font-size: 0.95rem; margin: 0; }
+    .comm-side { display: grid; gap: 1.2rem; }
+    .side-card { background: var(--ink-2); border: 2px solid var(--ink-3); border-radius: 6px; padding: 1.5rem; }
+    .side-card h3 { color: var(--bone); margin-bottom: 0.8rem; }
+    .side-card ul { margin: 0; padding-left: 1.1rem; color: var(--chrome); }
+    .side-card li { margin-bottom: 0.5rem; }
+    .side-accent { border-color: var(--flame); border-left-width: 5px; }
+    .side-accent p { color: var(--chrome); margin: 0 0 0.5rem; }
+    .side-email { font-family: var(--font-cond); font-size: 1.2rem; color: var(--flame-hot); text-decoration: none; letter-spacing: 0.5px; }
+    .side-email:hover { text-decoration: underline; }
+    @media (max-width: 820px) { .comm-grid { grid-template-columns: 1fr; } }
+  </style>
+</Layout>

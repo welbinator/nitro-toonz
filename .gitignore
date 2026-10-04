@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.env*
+.wrangler/
+.wrangler-cache/
+.astro/
+*.db*
+.DS_Store
+.vscode/

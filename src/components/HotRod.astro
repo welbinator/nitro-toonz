@@ -1,0 +1,63 @@
+---
+// A loud, cartoon hot rod drawn as inline SVG. No external assets.
+const { class: cls = "" } = Astro.props;
+---
+<svg class={cls} viewBox="0 0 640 380" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cartoon hot rod blasting flames">
+  <defs>
+    <linearGradient id="flameG" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffc53d"/>
+      <stop offset="0.5" stop-color="#ff8a00"/>
+      <stop offset="1" stop-color="#e01e1e"/>
+    </linearGradient>
+    <linearGradient id="bodyG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff7a3c"/>
+      <stop offset="1" stop-color="#e01e1e"/>
+    </linearGradient>
+    <radialGradient id="smokeG" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#2a2522"/>
+      <stop offset="1" stop-color="#2a2522" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- speed lines -->
+  <g stroke="#3a3330" stroke-width="5" stroke-linecap="round">
+    <line x1="10" y1="120" x2="120" y2="120"/>
+    <line x1="0" y1="165" x2="90" y2="165"/>
+    <line x1="18" y1="210" x2="140" y2="210"/>
+  </g>
+
+  <!-- exhaust flames out the back -->
+  <path d="M470 150 q70 -18 150 -8 q-40 22 -92 18 q46 14 100 36 q-80 6 -150 -16 q40 -8 60 -22 q-50 6 -68 -6z" fill="url(#flameG)" stroke="#e01e1e" stroke-width="4" stroke-linejoin="round"/>
+
+  <!-- ground shadow -->
+  <ellipse cx="300" cy="320" rx="230" ry="26" fill="url(#smokeG)"/>
+
+  <!-- car body -->
+  <path d="M90 250 C100 180 150 168 210 165 L250 128 C262 112 280 104 310 104 L372 104 C404 104 420 118 432 150 L470 175 C500 182 512 205 512 250 Z"
+        fill="url(#bodyG)" stroke="#1d1917" stroke-width="7" stroke-linejoin="round"/>
+  <!-- cabin window -->
+  <path d="M258 150 C268 128 284 122 306 122 L356 122 C378 122 390 134 400 158 Z"
+        fill="#28e0b8" stroke="#1d1917" stroke-width="6" stroke-linejoin="round"/>
+  <!-- door line + handle -->
+  <path d="M300 170 L300 240" stroke="#1d1917" stroke-width="5"/>
+  <rect x="330" y="196" width="34" height="9" rx="4" fill="#1d1917"/>
+  <!-- flame decal on the side -->
+  <path d="M110 232 q40 -8 70 -2 q-18 10 -40 8 q24 8 50 6 q-44 12 -86 2 z" fill="#ffc53d" stroke="#e01e1e" stroke-width="3" stroke-linejoin="round"/>
+  <!-- engine sticking out the hood -->
+  <rect x="408" y="78" width="40" height="34" rx="4" fill="#3a3330" stroke="#1d1917" stroke-width="5"/>
+  <rect x="416" y="60" width="10" height="22" rx="3" fill="#d9dde2" stroke="#1d1917" stroke-width="3"/>
+  <rect x="432" y="60" width="10" height="22" rx="3" fill="#d9dde2" stroke="#1d1917" stroke-width="3"/>
+
+  <!-- wheels -->
+  <g>
+    <circle cx="190" cy="268" r="52" fill="#141110" stroke="#1d1917" stroke-width="8"/>
+    <circle cx="190" cy="268" r="26" fill="#d9dde2" stroke="#1d1917" stroke-width="6"/>
+    <circle cx="190" cy="268" r="7" fill="#ff5a1f"/>
+    <circle cx="430" cy="272" r="58" fill="#141110" stroke="#1d1917" stroke-width="8"/>
+    <circle cx="430" cy="272" r="30" fill="#d9dde2" stroke="#1d1917" stroke-width="6"/>
+    <circle cx="430" cy="272" r="8" fill="#ff5a1f"/>
+  </g>
+
+  <!-- headlight glint -->
+  <circle cx="500" cy="212" r="12" fill="#ffc53d" stroke="#1d1917" stroke-width="4"/>
+</svg>

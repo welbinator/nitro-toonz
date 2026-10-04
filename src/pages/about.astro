@@ -1,0 +1,61 @@
+---
+import Layout from "../layouts/Layout.astro";
+import HotRod from "../components/HotRod.astro";
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const href = (p) => (base + p) || "/";
+---
+<Layout active="About" title="About">
+  <section class="page-head">
+    <div class="wrap about-grid">
+      <div class="rise">
+        <p class="eyebrow">About</p>
+        <h1>The shop behind the toons.</h1>
+        <p class="lead">
+          Nitro Toonz is custom hot rod cartoon art, plain and simple. The whole
+          idea is right there in the tagline: I cartoon your imagination. You bring
+          the ride, I bring the pen, and together we turn metal and chrome into a
+          cartoon with real personality.
+        </p>
+        <p class="body">
+          Every drawing starts with your actual vehicle and gets pushed into the
+          fun, bold, slightly over-the-top world that hot rod art has always lived
+          in. Big wheels, loud flames, and a grin on the grille. No two come out
+          the same, because no two rides are the same.
+        </p>
+        <p class="body">
+          Whether it is a weekend cruiser, a show car, a barn find, or the truck
+          you have had forever, it deserves to be drawn with some attitude. That
+          is what happens here.
+        </p>
+        <a class="btn btn-flame" href={href("/commissions")}><span>Start your commission</span></a>
+      </div>
+      <div class="about-art rise">
+        <HotRod cls="about-rod" />
+      </div>
+    </div>
+  </section>
+
+  <section class="values">
+    <div class="wrap">
+      <div class="val-grid">
+        <article class="val rise"><h3>Hand-drawn</h3><p>Real cartooning, built on your real ride. Not a filter, not a template.</p></article>
+        <article class="val rise"><h3>Built loud</h3><p>Bold lines, big color, and the kind of attitude a good hot rod earns.</p></article>
+        <article class="val rise"><h3>One of one</h3><p>Your car, your details, your cartoon. Made to order, every time.</p></article>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-head { padding: clamp(2.2rem, 6vw, 4rem) 0; background: radial-gradient(120% 80% at 70% 0%, #221a16 0%, var(--ink) 65%); }
+  .about-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 2rem; align-items: center; }
+  .lead { color: var(--chrome); font-size: 1.2rem; margin: 1rem 0; }
+  .body { color: var(--smoke); font-size: 1.08rem; }
+  .about-rod { width: 100%; height: auto; filter: drop-shadow(0 16px 22px rgba(0,0,0,0.5)); }
+  .values { background: var(--ink-2); border-top: 2px solid var(--ink-3); padding: clamp(2.5rem, 6vw, 4rem) 0; }
+  .val-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.4rem; }
+  .val { padding: 1.6rem; background: var(--ink); border-radius: 4px; border-top: 5px solid var(--flame); }
+  .val h3 { color: var(--bone); }
+  .val p { color: var(--smoke); margin-top: 0.6rem; font-size: 1rem; }
+  @media (max-width: 820px) { .about-grid { grid-template-columns: 1fr; } .about-art { max-width: 460px; } }
+</style>
